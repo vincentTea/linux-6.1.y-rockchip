@@ -167,10 +167,10 @@ static int gp7101_bl_probe(struct i2c_client *client,
     return 0;
 }
 
-static int gp7101_bl_remove(struct i2c_client *client)
+static void gp7101_bl_remove(struct i2c_client *client)
 {
     MY_DEBUG("locat");
-    return 0;
+    //return 0;
 }
 
 static const struct of_device_id gp7101_bl_of_match[] = {
