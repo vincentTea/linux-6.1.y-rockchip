@@ -1114,10 +1114,10 @@
 
 &i2c1 {
 	status = "okay";
-	ts@5d {
+	ts@14 {
 		pinctrl-0 = <&touch_gpio>;
 		compatible = "goodix,gt9xx";
-		reg = <0x5d>;
+		reg = <0x14>;
 		tp-size = <928>; 
 		max-x = <800>;
 		max-y = <1280>;
