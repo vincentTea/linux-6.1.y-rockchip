@@ -62,7 +62,7 @@ static u8 bgt9110 = FALSE;
 static u8 bgt9111 = FALSE;
 static u8 bgt970 = FALSE;
 static u8 bgt910 = FALSE;
-static u8 bgt928 = FALSE;
+static u8 bgt928 = FALSE; // 新增GT928驱动
 static u8 gtp_change_x2y = TRUE;
 static u8 gtp_x_reverse = FALSE;
 static u8 gtp_y_reverse = TRUE;
@@ -1453,11 +1453,6 @@ static s32 gtp_init_panel(struct goodix_ts_data *ts)
 		cfg_info_len[0] =  CFG_GROUP_LEN(gtp_dat_gt11);
     }
 
-    if (bgt928) {
-        send_cfg_buf[0] = gtp_dat_gt28;
-        cfg_info_len[0] = CFG_GROUP_LEN(gtp_dat_gt28);
-    }
-
     if (bgt9110) {
 	    send_cfg_buf[0] = gtp_dat_gt9110;
 	    cfg_info_len[0] =  CFG_GROUP_LEN(gtp_dat_gt9110);
@@ -1472,6 +1467,12 @@ static s32 gtp_init_panel(struct goodix_ts_data *ts)
 		send_cfg_buf[0] = gtp_dat_9_7;
 		cfg_info_len[0] = CFG_GROUP_LEN(gtp_dat_9_7);
 	}
+
+    // 新增GT928驱动
+    if (bgt928) {
+        send_cfg_buf[0] = gtp_dat_gt28;
+        cfg_info_len[0] = CFG_GROUP_LEN(gtp_dat_gt28);
+    }
 
 	if (bgt910) {
 		send_cfg_buf[0] = gtp_dat_7;
@@ -2705,16 +2706,16 @@ static int goodix_ts_probe(struct i2c_client *client, const struct i2c_device_id
 		gtp_change_x2y = TRUE;
 		gtp_x_reverse = FALSE;
 		gtp_y_reverse = TRUE;
-	} else if (val == 928) {
-		m89or101 = FALSE;
-		bgt911 = FALSE;
-		bgt970 = FALSE;
-		bgt910 = FALSE;
-		bgt928 = TRUE;
-		gtp_change_x2y = FALSE;
-		gtp_x_reverse = FALSE;
-		gtp_y_reverse = FALSE;
-	}
+	} else if (val == 928) { // 新增GT928驱动
+        m89or101 = FALSE;
+        bgt911 = FALSE;
+        bgt970 = FALSE;
+        bgt910 = FALSE;
+        bgt928 = TRUE;
+        gtp_change_x2y = FALSE;
+        gtp_x_reverse = FALSE;
+        gtp_y_reverse = FALSE;
+    }
 
 	ts->tp_regulator = devm_regulator_get(&client->dev, "tp");
 	if (IS_ERR(ts->tp_regulator)) {
