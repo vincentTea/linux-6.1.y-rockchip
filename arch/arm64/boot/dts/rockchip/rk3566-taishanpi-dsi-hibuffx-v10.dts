@@ -1118,7 +1118,7 @@
 		compatible = "goodix,gt911"; 
 		reg = <0x14>;
 		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PA0 IRQ_TYPE_LEVEL_LOW>;
+		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
 		reset-gpios = <&gpio1 RK_PA1 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&touch_gpio>;
