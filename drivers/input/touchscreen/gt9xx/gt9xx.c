@@ -3191,6 +3191,8 @@ static struct of_device_id goodix_ts_dt_ids[] = {
     { }
 };
 
+MODULE_DEVICE_TABLE(of, goodix_ts_dt_ids);
+
 static struct i2c_driver goodix_ts_driver = {
     .probe      = goodix_ts_probe,
     .remove     = goodix_ts_remove,
