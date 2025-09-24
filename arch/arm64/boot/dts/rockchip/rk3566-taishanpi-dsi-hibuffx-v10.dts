@@ -1115,13 +1115,13 @@
 &i2c1 {
 	status = "okay";
 	ts@14 {
-		compatible = "goodix,gt911"; 
+		compatible = "goodix,gt9xx";
 		reg = <0x14>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
-		reset-gpios = <&gpio1 RK_PA1 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&touch_gpio>;
+		tp-size = <928>; 
+		max-x = <800>;
+		max-y = <1280>;
+		touch-gpio = <&gpio1 RK_PA0 IRQ_TYPE_LEVEL_LOW>;
+		reset-gpio = <&gpio1 RK_PA1 GPIO_ACTIVE_HIGH>;
 	};
 	GP7101@58 {
         compatible = "gp7101-backlight";
