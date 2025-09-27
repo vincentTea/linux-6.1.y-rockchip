@@ -241,6 +241,7 @@
 		headset_gpio = <&gpio0 RK_PC5 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&hp_det>;
+		status = "disabled";
 	};
 
 	leds: leds {
@@ -1069,13 +1070,7 @@
 			rockchip,pins = <0 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
-	xpt2046-touchscreen {
-		xpt2046_int_pin: xpt2046-int-pin {
-			rockchip,pins = <3 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
-		};
-	};
-
+	
 	spi3 {
 		spi3_cs0n: spi3-cs0n {
 			rockchip,pins = <4 RK_PC6 RK_FUNC_GPIO &pcfg_pull_up_drv_level_2>;
@@ -1147,47 +1142,13 @@
 	max-freq = <48000000>;
 	dma-names = "tx","rx";
 	pinctrl-names = "default", "high_speed";
-	pinctrl-0 = <&spi3_cs0n &spi3_cs1n &spi3m1_pins>;
-	pinctrl-1 = <&spi3_cs0n &spi3_cs1n &spi3m1_pins_hs>;
-	cs-gpios = <&gpio4 RK_PC6 GPIO_ACTIVE_LOW>, <&gpio3 RK_PA7 GPIO_ACTIVE_LOW>;
-    
-	spi0_dev@0 {
-        compatible = "rockchip,spidev";
-        reg = <0>;
-        spi-max-frequency = <12000000>;
-        spi-lsb-first;
+	pinctrl-0 = <&spi3m1_cs0 &spi3m1_pins>;
+	pinctrl-1 = <&spi3m1_cs0 &spi3m1_pins_hs>;
+	spi_test@10 {
+		compatible ="rockchip,spi_test_bus1_cs0";
+		reg = <0>;
+		spi-max-frequency = <24000000>;
 		status = "okay";
-    };
-
-	xpt2046@1 {
-		pinctrl-names = "default";
-		pinctrl-0 = <&xpt2046_int_pin>;
-		reg = <1>;
-		compatible = "ti,ads7846";
-        status = "disabled"; 
-		interrupt-parent = <&gpio3>;
-		interrupts = <RK_PA6 0>;
-		spi-max-frequency = <1500000>;
-		pendown-gpio = <&gpio3 RK_PA6 0>;
-		ti,x-min = /bits/ 16 <0>;
-		ti,x-max = /bits/ 16 <0xfff>;
-		ti,y-min = /bits/ 16 <0>;
-		ti,y-max = /bits/ 16 <0xfff>;
-		ti,x-plate-ohms = /bits/ 16 <180>;
-		ti,pressure-max = /bits/ 16 <512>;
-		ti,debounce-max = /bits/ 16 <10>;
-		ti,debounce-tol = /bits/ 16 <30>;
-		ti,debounce-rep = /bits/ 16 <1>;
-		ti,settle-delay-usec = /bits/ 16 <150>;
-		ti,keep-vref-on = <1>;
-		/*
-		 * Do not set to wakeup source,
-		 * cause TL3568-EVM board will make xpt2046
-		 * int pin level change when suspend, this
-		 * will auto resume TL3568-EVM board.
-		 */
-		/delete-property/ linux,wakeup;
-		/delete-property/ wakeup-source;
 	};
 };
 
@@ -1253,14 +1214,16 @@
 	status = "okay";
 };
 
-&sata1 {
-	rockchip,enable-ssc;
-	status = "okay";
+//&sata1 {
+//	rockchip,enable-ssc;
+//	status = "okay";
+//};
+
+//耳机插入检测，不使用扩展板情况需关闭，否则默认会检测到耳机插入
+&rk_headset {
+	status = "disabled";
 };
 
-&rk_headset {
-	status = "okay";
-};
 
 &i2s0_8ch {
 	status = "okay";
@@ -1290,7 +1253,8 @@
 	rx_delay = <0x25>;
 
 	phy-handle = <&rgmii_phy0>;
-	status = "okay";
+	//status = "okay";
+	status = "disabled";
 };
 
 &mdio1 {
